@@ -130,7 +130,7 @@ public class JMPlayer {
      * @return Status message.
      * @throws IOException
      */
-    public String open(File file) throws IOException {
+    public synchronized String open(File file) throws IOException {
         String path = file.getAbsolutePath().replace('\\', '/');
         String retStr = "Unknown Error";
 
@@ -167,7 +167,7 @@ public class JMPlayer {
      * @return Status message.
      * @throws IOException
      */
-    public String open(URL urlObj) throws IOException {
+    public synchronized String open(URL urlObj) throws IOException {
         String path = urlObj.toString();
         System.out.println("Requested path = " + path);
         InputStream connectionTest = null;
@@ -228,7 +228,7 @@ public class JMPlayer {
         PipedOutputStream writeTo;
 
         try {
-            PipedInputStream readFrom = new PipedInputStream(2048 * 2048);
+            PipedInputStream readFrom = new PipedInputStream(1024 * 1024);
             writeTo = new PipedOutputStream(readFrom);
             this.mplayerOutErr = new BufferedReader(new InputStreamReader(readFrom));
             this.pipeDumper = new PipeDumper(readFrom);
@@ -265,7 +265,7 @@ public class JMPlayer {
     /**
      * Closes currently running MPlayer and stops its data re-direction thread
      */
-    public void close() {
+    public synchronized void close() {
         if (mplayerProcess != null) {
             execute("quit");
             this.setPlayerInfoParam("isPlaying", "false");
@@ -595,6 +595,7 @@ public class JMPlayer {
         @Override
         public void run(){
             BufferedReader pipeReader = new BufferedReader(new InputStreamReader(dumpPipe));
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(mplayerProcess.getInputStream()));
             String lineToDump = "";
             //this.dumpingIsAllowed = true;
 
@@ -603,8 +604,25 @@ public class JMPlayer {
                 try {
                     if(pipeReader.ready() && this.dumpingIsAllowed){
                         if((lineToDump = pipeReader.readLine()) != null){
-                            if(!dumpingIsAllowed){
-                                System.out.println("Dumping line: " + lineToDump);
+                            //System.out.println("Dumping line: " + lineToDump);
+                        }
+                        else{
+                            this.stopIt();
+                        }
+                    }
+                    if(errorReader.ready() && this.dumpingIsAllowed){
+                        if((lineToDump = pipeReader.readLine()) != null){
+                            //System.out.println("Error line: " + lineToDump);
+                            if(lineToDump.contains("Audio device got stuck!")){
+                                System.out.println("Detected audio device got stuck, restarting player.");
+                                close();
+                                try {
+                                    System.out.println(open(new URL(playerInfo.get("path"))));
+                                } catch (MalformedURLException e) {
+                                    System.out.println(e.toString());
+                                } catch (IOException e) {
+                                    System.out.println(e.toString());
+                                }
                             }
                         }
                         else{
