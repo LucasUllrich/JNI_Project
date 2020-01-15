@@ -17,12 +17,12 @@ import java.net.URL;
  * @since 04.01.2020
  */
 public final class MPlayerCommands {
-    private JMPlayer playerObject;
+    //player handling object
+    final JMPlayer playerObject = new JMPlayer();
     private Queue<String> playerInfoQueue;
     private ArrayList<String> presetURLs = new ArrayList<String>();
 
-    public MPlayerCommands(JMPlayer playerObj){
-        this.playerObject = playerObj;
+    public MPlayerCommands(){
         this.playerInfoQueue = playerObject.getPlayerInfoQueue();
         presetURLs.add("http://mp3stream7.apasf.apa.at:8000");
         presetURLs.add("http://raj.krone.at/kronehit-ultra-hd.aac");
@@ -141,5 +141,13 @@ public final class MPlayerCommands {
      */
     public Queue<String> getPlayerInfoQueue(){
         return this.playerInfoQueue;
+    }
+
+    public boolean isPlayerPlaying(){
+        return playerObject.isPlaying();
+    }
+
+    public void closePlayer(){
+        playerObject.close();
     }
 }

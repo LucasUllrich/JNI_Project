@@ -16,10 +16,8 @@ import java.io.InputStreamReader;
  */
 public class App {
     public static void main(String[] args) throws Exception {
-        //player handling object
-        final JMPlayer jmPlayer = new JMPlayer();
         //player command object, using this one for controlling player
-        final MPlayerCommands cmdInterface = new MPlayerCommands(jmPlayer);
+        final MPlayerCommands cmdInterface = new MPlayerCommands();
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
         String serialInput = "";
         boolean runFlag = true;
@@ -59,8 +57,9 @@ public class App {
         //before terminating application stop server threads
         serverThread.stopServer();
         //closing mplayer if active
-        if(jmPlayer.isPlaying()){
-            jmPlayer.close();
+        if(cmdInterface.isPlayerPlaying()){
+            System.out.println("Stopping Player.");
+            cmdInterface.closePlayer();
         }
         // TODO: shutdown für HardwareHandler
         System.out.println("Quit Application.");
