@@ -36,7 +36,8 @@ public class App {
         /************************************************************************
          * PiFace Control and Display Handling
          ************************************************************************/
-
+        HardwareHandler hardwareHandler = new HardwareHandler();
+        hardwareHandler.start();
 
          /************************************************************************
          * Main Loop
@@ -61,6 +62,7 @@ public class App {
         if(jmPlayer.isPlaying()){
             jmPlayer.close();
         }
+        // TODO: shutdown für HardwareHandler
         System.out.println("Quit Application.");
     }
 }
