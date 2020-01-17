@@ -11,8 +11,8 @@ JNIEXPORT jbyte JNICALL Java_app_ButtonManager_getButtonStates (JNIEnv *env, job
     uint8_t buttons;
     buttons = pifacecad_read_switches();
 
-    for (uint8_t counter = 0; counter < NUM_OF_BUTTONS; counter++) {
-        if ((buttons >> counter) &0x01) {
+    for (uint8_t counter = 1; counter < NUM_OF_BUTTONS; counter++) {
+        if ((buttons >> (counter - 1)) & 0x01) {
             return (jbyte) counter;
         }
     }
