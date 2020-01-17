@@ -6,7 +6,7 @@
 #include "pifacecad.h"
 #endif
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *env, jobject thisObj, jstring text){
+JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *env, jobject thisObj, jstring text) {
 #ifndef PC_BUILD
     char *pText = (char *)(* env)->GetStringUTFChars(env, text, NULL);
     if (pText == NULL) {
@@ -16,7 +16,7 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *env, jobject th
 #endif
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *env, jobject thisObj, jboolean state){
+JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
         pifacecad_lcd_backlight_on();
@@ -26,7 +26,7 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *env, j
 #endif
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *env, jobject thisObj, jboolean state){
+JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
         pifacecad_lcd_cursor_on();
@@ -36,13 +36,13 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *env,
 #endif
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_clearScreen (JNIEnv *env, jobject thisObj){
+JNIEXPORT void JNICALL Java_app_DisplayManager_clearScreen (JNIEnv *env, jobject thisObj) {
 #ifndef PC_BUILD
     pifacecad_lcd_clear();
 #endif
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *env, jobject thisObj, jboolean state){
+JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
         pifacecad_lcd_display_on();
@@ -52,7 +52,7 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *env, jobject
 #endif
 }
 
-JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject thisObj){
+JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject thisObj) {
 #ifndef PC_BUILD
     if (pifacecad_open() == -1) {
         return 1;
@@ -62,6 +62,17 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject th
     pifacecad_lcd_cursor_off();
     pifacecad_lcd_blink_off();
     pifacecad_lcd_display_on();
+    pifacecad_lcd_autoscroll_on();
 #endif
     return 0;
+}
+
+JNIEXPORT void JNICALL Java_app_DisplayManager_autoscroll (JNIEnv *env, jobject thisObj, jboolean state) {
+#ifndef PC_BUILD
+    if (state) {
+        pifacecad_lcd_autoscroll_on();
+    } else {
+        pifacecad_lcd_autoscroll_off();
+    }
+#endif
 }

@@ -11,12 +11,13 @@ public class DisplayManager extends Thread {
     private native void clearScreen ();
     private native void setLcdState (boolean state);            // LCD on/off
     private native byte initLcd ();
+    private native void autoscroll (boolean state);
 
     @Override
     public void run () {
         DisplayManager displayManager = new DisplayManager();
         displayManager.initLcd();
-        displayManager.sendText("Test");
+        displayManager.sendText("Long Testtexttextext");
         while(true) {
             try {
                 

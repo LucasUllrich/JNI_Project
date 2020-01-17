@@ -61,6 +61,14 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState
 JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd
   (JNIEnv *, jobject);
 
+/*
+ * Class:     app_DisplayManager
+ * Method:    autoscroll
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_app_DisplayManager_autoscroll
+  (JNIEnv *, jobject, jboolean);
+
 #ifdef __cplusplus
 }
 #endif

@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "app_displaymanager.h": "c"
+        "app_displaymanager.h": "c",
+        "pifacecad.h": "c"
     }
 }

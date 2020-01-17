@@ -24,10 +24,10 @@ public final class MPlayerCommands {
 
     public MPlayerCommands(){
         this.playerInfoQueue = playerObject.getPlayerInfoQueue();
-        presetURLs.add("http://mp3stream7.apasf.apa.at:8000");
-        presetURLs.add("http://raj.krone.at/kronehit-ultra-hd.aac");
-        presetURLs.add("http://mp3stream1.apasf.apa.at/;stream.mp3");
-        presetURLs.add("http://mp3.stream.tb-group.fm/tb.mp3?");
+        presetURLs.add("http://mp3stream7.apasf.apa.at:8000");          // OE3
+        presetURLs.add("http://raj.krone.at/kronehit-ultra-hd.aac");    // Kronehit
+        presetURLs.add("http://mp3stream1.apasf.apa.at/;stream.mp3");   // FM4
+        presetURLs.add("http://mp3.stream.tb-group.fm/tb.mp3?");        // Technobase.FM
     }
 
     /**
