@@ -47,6 +47,7 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject th
     pifacecad_lcd_backlight_on();
     pifacecad_lcd_clear();
     pifacecad_lcd_cursor_off();
+    pifacecad_lcd_blink_off();
     pifacecad_lcd_display_on();
 
 }
