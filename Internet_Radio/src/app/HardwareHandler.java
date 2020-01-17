@@ -62,10 +62,12 @@ public class HardwareHandler extends Thread {
 
             switch (buttonState) {
                 case 1:
+			System.out.println ("Autoscroll on");
                     displayManager.setAutoscroll(true);
                     break;
 
                 case 2:
+System.out.println ("Autoscroll off");
                     displayManager.setAutoscroll(false);
                     break;
 
