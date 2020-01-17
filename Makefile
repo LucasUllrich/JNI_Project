@@ -7,7 +7,7 @@ SERVER_JNI_DIR=Internet_Radio/jni
 SERVER_SRC_DIR=Internet_Radio/src/app
 JAVAC=$(JAVA_HOME)/bin/javac
 LIB_DIR=./libpifacecad
-LIB_DIR+=/libmcp23s17
+LIB_DIR+=./libmcp23s17
 LIBS=pifacecad
 LIBS+=mcp23s17
 
