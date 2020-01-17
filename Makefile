@@ -51,3 +51,6 @@ endif
 
 $(SERVER_JNI_DIR)/RadioControl.h :
 	$(JAVAC) -h $(SERVER_JNI_DIR) -cp $(SERVER_CLASS_PATH) -d $(SERVER_CLASS_PATH) $(SERVER_JAVA_SRC)
+
+clean :
+	rm -Rf $(SERVER_JNI_DIR)/*.h $(SERVER_JNI_DIR)/*.o $(SERVER_JNI_DIR)/*.so $(SERVER_CLASS_PATH)/*
