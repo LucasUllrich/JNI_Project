@@ -14,8 +14,9 @@ public class DisplayManager extends Thread {
 
     @Override
     public void run () {
-        initLcd();
-        sendText("Test");
+        DisplayManager displayManager = new DisplayManager();
+        displayManager.initLcd();
+        displayManager.sendText("Test");
         while(true) {
             try {
                 
