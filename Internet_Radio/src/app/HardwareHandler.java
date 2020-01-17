@@ -19,8 +19,8 @@ public class HardwareHandler extends Thread {
         JMPlayer player = cmdInterface.getPlayerObject();
         // Map<String, String> playerInfo = new TreeMap<String, String>();
         String playerInfo = "";
-        String[] playerInfoElements = "";
-        String[] elementParser = "";
+        String[] playerInfoElements;
+        String[] elementParser;
         int buttonState = 0;
         int volume = 0;
         String senderName = "";
