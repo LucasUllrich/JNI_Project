@@ -1,0 +1,78 @@
+int pifacecad_open(void);
+
+int pifacecad_open_noinit(void);
+
+void pifacecad_close(void);
+
+void pifacecad_lcd_init(void);
+
+uint8_t pifacecad_read_switches(void);
+
+uint8_t pifacecad_read_switch(uint8_t switch_num);
+
+uint8_t pifacecad_lcd_write(const char * message);
+
+uint8_t pifacecad_lcd_set_cursor(uint8_t col, uint8_t row);
+
+void pifacecad_lcd_set_cursor_address(uint8_t address);
+
+uint8_t pifacecad_lcd_get_cursor_address(void);
+
+void pifacecad_lcd_clear(void);
+
+void pifacecad_lcd_home(void);
+
+void pifacecad_lcd_display_on(void);
+
+void pifacecad_lcd_display_off(void);
+
+void pifacecad_lcd_blink_on(void);
+
+void pifacecad_lcd_blink_off(void);
+
+void pifacecad_lcd_cursor_on(void);
+
+void pifacecad_lcd_cursor_off(void);
+
+void pifacecad_lcd_backlight_on(void);
+
+void pifacecad_lcd_backlight_off(void);
+
+void pifacecad_lcd_move_left(void);
+
+void pifacecad_lcd_move_right(void);
+
+void pifacecad_lcd_left_to_right(void);
+
+void pifacecad_lcd_right_to_left(void);
+
+void pifacecad_lcd_autoscroll_on(void);
+
+void pifacecad_lcd_autoscroll_off(void);
+
+void pifacecad_lcd_write_custom_bitmap(uint8_t location);
+
+void pifacecad_lcd_store_custom_bitmap(uint8_t location, uint8_t bitmap[]);
+
+void pifacecad_lcd_send_command(uint8_t command);
+
+void pifacecad_lcd_send_data(uint8_t data);
+
+void pifacecad_lcd_send_byte(uint8_t byte);
+
+void pifacecad_lcd_set_rs(uint8_t state);
+
+void pifacecad_lcd_set_rw(uint8_t state);
+
+void pifacecad_lcd_set_enable(uint8_t state);
+
+void pifacecad_lcd_set_backlight(uint8_t state);
+
+void pifacecad_lcd_pulse_enable(void);
+
+uint8_t colrow2address(uint8_t col, uint8_t row);
+
+uint8_t address2col(uint8_t address);
+
+uint8_t address2row(uint8_t address);
+

@@ -56,9 +56,9 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState
 /*
  * Class:     app_DisplayManager
  * Method:    initLcd
- * Signature: ()V
+ * Signature: ()B
  */
-JNIEXPORT void JNICALL Java_app_DisplayManager_initLcd
+JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus

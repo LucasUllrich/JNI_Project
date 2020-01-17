@@ -10,11 +10,12 @@ public class DisplayManager extends Thread {
     private native void setCursorVisibility (boolean state);    // Cursor visibility on/off
     private native void clearScreen ();
     private native void setLcdState (boolean state);            // LCD on/off
-    private native void initLcd ();
+    private native byte initLcd ();
 
     @Override
     public void run () {
-
+        initLcd();
+        sendText("Test");
     }
 
 }
