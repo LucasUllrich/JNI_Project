@@ -72,7 +72,7 @@ public class JMPlayer {
     }
 
     /** The path to the MPlayer executable. */
-    private String mplayerPath = "/usr/local/bin/mplayer";
+    private String mplayerPath = "/usr/bin/mplayer";
     /** Options passed to MPlayer. */
     private String mplayerOptions = " -slave -idle";
 
