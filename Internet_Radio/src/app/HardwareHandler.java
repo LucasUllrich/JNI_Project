@@ -42,12 +42,12 @@ public class HardwareHandler extends Thread {
                     elementParser = element.split(":");
                     senderName = elementParser[1];
                 }
+                System.out.println("Info: " + element);
             }
 
-            System.out.println("volume: " + volume);
-            System.out.println("senderName: " + senderName);
+            // System.out.println("volume: " + volume);
+            // System.out.println("senderName: " + senderName);
 
-            // System.out.println("Info: " + playerInfoElements);
 
             switch (buttonState) {
                 case 1:
