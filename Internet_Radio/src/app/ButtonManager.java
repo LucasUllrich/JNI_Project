@@ -4,7 +4,7 @@ public class ButtonManager extends Thread {
     static {
         System.loadLibrary("radio");
     }
-    private native int getButtonStates ();
+    private native byte getButtonStates ();
 
 
     @Override

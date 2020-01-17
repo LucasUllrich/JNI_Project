@@ -16,9 +16,9 @@ extern "C" {
 /*
  * Class:     app_ButtonManager
  * Method:    getButtonStates
- * Signature: ()I
+ * Signature: ()B
  */
-JNIEXPORT jint JNICALL Java_app_ButtonManager_getButtonStates
+JNIEXPORT jbyte JNICALL Java_app_ButtonManager_getButtonStates
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus

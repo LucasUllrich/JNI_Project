@@ -1,34 +1,34 @@
+$(info Set the JAVA_HOME directory in your system, either by adding JAVA_HOME=... in /etc/environment and rebooting (permanently), \
+or just issuing the JAVA_HOME=... command in your command line (only for the current session))
+$(info )
+
 CLASS_PATH=Internet_Radio/bin/app
 JNI_DIR=Internet_Radio/jni
 SRC_DIR=Internet_Radio/src/app
-#SERVER_DIR=./Internet_Radio/
-#CLIENT_DIR=./Internet_Radio_Client/
-#JNI_DIR=$(SERVER_DIR)$(JNI_DIR_NAME)
-#SRC_DIR=$(SERVER_DIR)$(SRC_DIR_NAME)
-#CLASS_PATH=$(SERVER_DIR)$(CLASS_PATH_NAME)
+JAVAC=$(JAVA_HOME)/bin/javac
 
-C_SRC=$(wildcard SRC_DIR/*.c)
 
-OBJS=$(C_SRC:.c=.o);
+C_SRC=$(wildcard $(JNI_DIR)/*.c)
+JAVA_SRC=$(wildcard $(SRC_DIR)/*.java)
 
-$(info C_FILES is $(C_FILES))
+OBJS=$(C_SRC:.c=.o)
+
 
 vpath %.class $(CLASS_PATH)
 
-all : $(JNI_DIR)/libradio.so
+all : header $(JNI_DIR)/libradio.so
 
 header : $(JNI_DIR)/RadioControl.h
 
-$(JNI_DIR)/libradio.so : $(JNI_DIR)/RadioControl.o
+
+$(JNI_DIR)/libradio.so : $(OBJS)
 	gcc -W -shared -o $@ $<
 
-$(JNI_DIR)/RadioControl.o : $(C_FILES) $(C_H_FILES)
-	gcc -fPIC -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" -I"$(JNI_DIR)" -c $^ -o $@
-
-%*.c : %*.o
+%.o: %.c
+	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" -I"$(JNI_DIR)" $< -o $@
 
 $(JNI_DIR)/RadioControl.h :
-	$(JAVAC) -h $(JNI_DIR) -d $(CLASS_PATH) $(JAVA_FILES)
+	$(JAVAC) -h $(JNI_DIR) -d $(CLASS_PATH) $(JAVA_SRC)
 
 
 clean :
