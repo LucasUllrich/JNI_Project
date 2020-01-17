@@ -1,8 +1,12 @@
 package app;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class HardwareHandler extends Thread {
 
     MPlayerCommands cmdInterface = null;
+   
 
     HardwareHandler (MPlayerCommands cmdInterface) {
         this.cmdInterface = cmdInterface;
@@ -13,6 +17,8 @@ public class HardwareHandler extends Thread {
         ButtonManager buttonManager = new ButtonManager();
         DisplayManager displayManager = new DisplayManager();
         JMPlayer player = cmdInterface.getPlayerObject();
+        // Map<String, String> playerInfo = new TreeMap<String, String>();
+        String playerInfo = "";
         int buttonState = 0;
 
         buttonManager.start();
@@ -21,7 +27,9 @@ public class HardwareHandler extends Thread {
         while(true) {
             buttonState = buttonManager.getButtonPressed();
 
-            System.out.println("Info: " + cmdInterface.getPlayerInfoQueue());
+            playerInfo = cmdInterface.getPlayerInfoQueue().peek();
+            System.out.println("Info: " + playerInfo);
+
 
             switch (buttonState) {
                 case 1:
