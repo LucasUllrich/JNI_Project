@@ -26,6 +26,7 @@ SERVER_JAVA_SRC=$(wildcard $(SERVER_SRC_DIR)/*.java)
 
 SERVER_OBJS=$(SERVER_C_SRC:.c=.o)
 
+uname_m := $(shell uname -m)
 
 vpath %.class $(SERVER_CLASS_PATH)
 
@@ -35,14 +36,18 @@ java : $(SERVER_JNI_DIR)/RadioControl.h
 
 
 $(SERVER_JNI_DIR)/libradio.so : $(SERVER_OBJS)
+ifeq ($(uname_m),armv7l)
 	gcc -W -shared -o $@ $^ $(LIBS)
+else
+	gcc -W -shared -o $@ $^
+endif
 
 %.o: %.c
+ifeq ($(uname_m),armv7l)
 	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" $(INC_DIR) $(LIBS) -I"$(SERVER_JNI_DIR)" $< -o $@
+else
+	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" -DPC_BUILD=1 -I"$(SERVER_JNI_DIR)" $< -o $@
+endif
 
 $(SERVER_JNI_DIR)/RadioControl.h :
 	$(JAVAC) -h $(SERVER_JNI_DIR) -cp $(SERVER_CLASS_PATH) -d $(SERVER_CLASS_PATH) $(SERVER_JAVA_SRC)
-
-
-clean :
-	rm -Rf $(SERVER_JNI_DIR)/*.h $(SERVER_JNI_DIR)/*.o $(SERVER_JNI_DIR)/*.so $(SERVER_CLASS_PATH)/*

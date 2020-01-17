@@ -42,7 +42,7 @@ public class HardwareHandler extends Thread {
             for (String element : playerInfoElements) {
                 if (element.startsWith(">volume")) {
                     elementParser = element.split(" ");
-                    volume = Float.parseFloat(elementParser[1]);
+                    volume = (int) Float.parseFloat(elementParser[1]);
                 } else if (element.startsWith(">Name")) {
                     elementParser = element.split(":");
                     senderName = elementParser[1];

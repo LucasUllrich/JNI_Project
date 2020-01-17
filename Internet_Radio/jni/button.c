@@ -3,11 +3,14 @@
 #include <stdint.h>
 #include "app_ButtonManager.h"
 
+#ifndef PC_BUILD
 #include "pifacecad.h"
+#endif
 
 #define NUM_OF_BUTTONS (8)
 
 JNIEXPORT jbyte JNICALL Java_app_ButtonManager_getButtonStates (JNIEnv *env, jobject thisObj) {
+#ifndef PC_BUILD
     uint8_t buttons;
     buttons = pifacecad_read_switches();
 
@@ -16,5 +19,6 @@ JNIEXPORT jbyte JNICALL Java_app_ButtonManager_getButtonStates (JNIEnv *env, job
             return (jbyte) counter;
         }
     }
+#endif
     return (jbyte) 0;
 }
