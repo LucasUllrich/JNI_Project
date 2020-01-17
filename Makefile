@@ -2,34 +2,37 @@ $(info Set the JAVA_HOME directory in your system, either by adding JAVA_HOME=..
 or just issuing the JAVA_HOME=... command in your command line (only for the current session))
 $(info )
 
-CLASS_PATH=Internet_Radio/bin/app
-JNI_DIR=Internet_Radio/jni
-SRC_DIR=Internet_Radio/src/app
+SERVER_CLASS_PATH=Internet_Radio/bin/app
+SERVER_JNI_DIR=Internet_Radio/jni
+SERVER_SRC_DIR=Internet_Radio/src/app
 JAVAC=$(JAVA_HOME)/bin/javac
+LIB_DIR=./libpifacecad
+LIB_DIR+=/libmcp23s17
+LIBS=pifacecad
+LIBS+=mcp23s17
+
+SERVER_C_SRC=$(wildcard $(SERVER_JNI_DIR)/*.c)
+SERVER_JAVA_SRC=$(wildcard $(SERVER_SRC_DIR)/*.java)
+
+SERVER_OBJS=$(SERVER_C_SRC:.c=.o)
 
 
-C_SRC=$(wildcard $(JNI_DIR)/*.c)
-JAVA_SRC=$(wildcard $(SRC_DIR)/*.java)
+vpath %.class $(SERVER_CLASS_PATH)
 
-OBJS=$(C_SRC:.c=.o)
+all : header $(SERVER_JNI_DIR)/libradio.so
 
-
-vpath %.class $(CLASS_PATH)
-
-all : header $(JNI_DIR)/libradio.so
-
-header : $(JNI_DIR)/RadioControl.h
+header : $(SERVER_JNI_DIR)/RadioControl.h
 
 
-$(JNI_DIR)/libradio.so : $(OBJS)
+$(SERVER_JNI_DIR)/libradio.so : $(SERVER_OBJS)
 	gcc -W -shared -o $@ $<
 
 %.o: %.c
-	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" -I"$(JNI_DIR)" $< -o $@
+	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" -L$(LIB_DIR) -l$(LIBS) -I"$(SERVER_JNI_DIR)" $< -o $@
 
-$(JNI_DIR)/RadioControl.h :
-	$(JAVAC) -h $(JNI_DIR) -d $(CLASS_PATH) $(JAVA_SRC)
+$(SERVER_JNI_DIR)/RadioControl.h :
+	$(JAVAC) -h $(SERVER_JNI_DIR) -d $(SERVER_CLASS_PATH) $(SERVER_JAVA_SRC)
 
 
 clean :
-	rm -Rf $(JNI_DIR)/*.h $(JNI_DIR)/*.o $(JNI_DIR)/*.so $(CLASS_PATH)/*
+	rm -Rf $(SERVER_JNI_DIR)/*.h $(SERVER_JNI_DIR)/*.o $(SERVER_JNI_DIR)/*.so $(SERVER_CLASS_PATH)/*
