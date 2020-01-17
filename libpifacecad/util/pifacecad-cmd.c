@@ -20,6 +20,7 @@
 #include <strings.h>
 #include <mcp23s17.h>
 #include <pifacecad.h>
+#include <string.h>
 
 
 /**********************************************************************/
