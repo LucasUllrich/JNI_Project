@@ -2,7 +2,7 @@ $(info Set the JAVA_HOME directory in your system, either by adding JAVA_HOME=..
 or just issuing the JAVA_HOME=... command in your command line (only for the current session))
 $(info )
 
-SERVER_CLASS_PATH=Internet_Radio/bin/app
+SERVER_CLASS_PATH=Internet_Radio/bin/
 SERVER_JNI_DIR=Internet_Radio/jni
 SERVER_SRC_DIR=Internet_Radio/src/app
 JAVAC=$(JAVA_HOME)/bin/javac
@@ -38,7 +38,7 @@ $(SERVER_JNI_DIR)/libradio.so : $(SERVER_OBJS)
 	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" $(INC_DIR) $(LIB_DIR) $(LIBS) -I"$(SERVER_JNI_DIR)" $< -o $@
 
 $(SERVER_JNI_DIR)/RadioControl.h :
-	$(JAVAC) -h $(SERVER_JNI_DIR) -d $(SERVER_CLASS_PATH) $(SERVER_JAVA_SRC)
+	$(JAVAC) -h $(SERVER_JNI_DIR) -cp $(SERVER_CLASS_PATH) -d $(SERVER_CLASS_PATH) $(SERVER_JAVA_SRC)
 
 
 clean :
