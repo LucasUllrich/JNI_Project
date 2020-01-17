@@ -21,8 +21,8 @@ public class HardwareHandler extends Thread {
         while(true) {
             buttonState = buttonManager.getButtonPressed();
 
-            System.out.println("Info: " cmdInterface.getPlayerInfoQueue());
-            
+            System.out.println("Info: " + cmdInterface.getPlayerInfoQueue());
+
             switch (buttonState) {
                 case 1:
                     
