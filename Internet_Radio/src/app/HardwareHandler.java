@@ -11,6 +11,13 @@ public class HardwareHandler extends Thread {
 
         while(true) {
             System.out.println("Button state: " + buttonManager.getButtonPressed());
+            
+            try {
+                Thread.sleep(100);
+                
+            } catch (Exception e) {
+                //TODO: handle exception
+            }
         }
     }
 }
