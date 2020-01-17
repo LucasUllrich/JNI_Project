@@ -2,6 +2,7 @@ package app;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 public class HardwareHandler extends Thread {
 
@@ -32,13 +33,16 @@ public class HardwareHandler extends Thread {
         while(true) {
             buttonState = buttonManager.getButtonPressed();
 
-            playerInfo = cmdInterface.getPlayerInfoQueue().peek();
-            playerInfoElements = playerInfo.split("|");
-            System.out.println("Info: " + playerInfoElements[0]);
+            playerInfo = cmdInterface.getPlayerInfoQueue().peek().toString();
+
+	    System.out.println("playerInfo: " + playerInfo);
+
+            playerInfoElements = playerInfo.split(Pattern.quote("|"));
+            System.out.println("Info: " + playerInfoElements[1]);
             for (String element : playerInfoElements) {
                 if (element.startsWith(">volume")) {
                     elementParser = element.split(" ");
-                    volume = Integer.parseInt(elementParser[1]);
+                    volume = Float.parseFloat(elementParser[1]);
                 } else if (element.startsWith(">Name")) {
                     elementParser = element.split(":");
                     senderName = elementParser[1];
