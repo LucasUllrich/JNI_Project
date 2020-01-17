@@ -16,6 +16,9 @@ public class DisplayManager extends Thread {
     public void run () {
         initLcd();
         sendText("Test");
+        while(1) {
+            Thread.sleep(100);
+        }
     }
 
 }

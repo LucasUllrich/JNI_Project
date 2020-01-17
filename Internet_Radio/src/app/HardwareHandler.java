@@ -6,5 +6,7 @@ public class HardwareHandler extends Thread {
     public void run () {
         ButtonManager buttonManager = new ButtonManager();
         DisplayManager displayManager = new DisplayManager();
+        buttonManager.start();
+        displayManager.start();
     }
 }

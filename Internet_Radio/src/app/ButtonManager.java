@@ -9,6 +9,8 @@ public class ButtonManager extends Thread {
 
     @Override
     public void run () {
-
+        while(1) {
+            Thread.sleep(100);
+        }
     }
 }
