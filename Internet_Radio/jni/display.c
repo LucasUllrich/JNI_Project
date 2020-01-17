@@ -2,26 +2,28 @@
 #include <stdio.h>
 #include "app_DisplayManager.h"
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *, jobject, jstring){
+#include "pifacecad.h"
+
+JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *env, jobject thisObj, jstring text){
 
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *, jobject, jboolean){
+JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *env, jobject thisObj, jboolean state){
 
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *, jobject, jboolean){
+JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *env, jobject thisObj, jboolean state){
 
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_clearScreen (JNIEnv *, jobject){
+JNIEXPORT void JNICALL Java_app_DisplayManager_clearScreen (JNIEnv *env, jobject thisObj){
 
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *, jobject, jboolean){
+JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *env, jobject thisObj, jboolean state){
 
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_initLcd (JNIEnv *, jobject){
-    
+JNIEXPORT void JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject thisObj){
+
 }
