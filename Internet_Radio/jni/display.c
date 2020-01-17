@@ -67,7 +67,7 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject th
     return 0;
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_autoscroll (JNIEnv *env, jobject thisObj, jboolean state) {
+JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
         pifacecad_lcd_autoscroll_on();

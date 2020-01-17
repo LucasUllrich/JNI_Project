@@ -63,10 +63,10 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd
 
 /*
  * Class:     app_DisplayManager
- * Method:    autoscroll
+ * Method:    autoscrollLcd
  * Signature: (Z)V
  */
-JNIEXPORT void JNICALL Java_app_DisplayManager_autoscroll
+JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd
   (JNIEnv *, jobject, jboolean);
 
 #ifdef __cplusplus
