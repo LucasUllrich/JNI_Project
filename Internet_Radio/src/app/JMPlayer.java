@@ -85,6 +85,8 @@ public class JMPlayer {
      * read MPlayer responses.
      */
     private BufferedReader mplayerOutErr;
+    //thread for clearing pipe while information is not needed
+    private PipeDumper pipeDumper = null;
 
     private Map<String, String> playerInfo = new TreeMap<String, String>();
     private ArrayList<String> fileInfo = new ArrayList<String>();
@@ -128,7 +130,7 @@ public class JMPlayer {
      * @return Status message.
      * @throws IOException
      */
-    public String open(File file) throws IOException {
+    public synchronized String open(File file) throws IOException {
         String path = file.getAbsolutePath().replace('\\', '/');
         String retStr = "Unknown Error";
 
@@ -165,7 +167,7 @@ public class JMPlayer {
      * @return Status message.
      * @throws IOException
      */
-    public String open(URL urlObj) throws IOException {
+    public synchronized String open(URL urlObj) throws IOException {
         String path = urlObj.toString();
         System.out.println("Requested path = " + path);
         InputStream connectionTest = null;
@@ -223,25 +225,27 @@ public class JMPlayer {
         // create the piped streams where to redirect the standard output and error of
         // MPlayer
         // specify a bigger pipesize
-        PipedInputStream readFrom = new PipedInputStream(2048 * 2048);
         PipedOutputStream writeTo;
 
         try {
+            PipedInputStream readFrom = new PipedInputStream(1024 * 1024);
             writeTo = new PipedOutputStream(readFrom);
             this.mplayerOutErr = new BufferedReader(new InputStreamReader(readFrom));
+            this.pipeDumper = new PipeDumper(readFrom);
 
             // create the threads to redirect the standard output and error of MPlayer
             new LineRedirecter(mplayerProcess.getInputStream(), writeTo, "MPlayer says: ").start();
             new LineRedirecter(mplayerProcess.getErrorStream(), writeTo, "MPlayer encountered an error: ").start();
+            // the standard input of MPlayer
+            this.mplayerIn = new PrintStream(mplayerProcess.getOutputStream());
+            this.pipeDumper.start();
+
         } catch (IOException e) {
             this.close();
             retStr = "Cannot establish communication with MPlayer!";
             return retStr;
             //e.printStackTrace();
         }
-
-        // the standard input of MPlayer
-        this.mplayerIn = new PrintStream(mplayerProcess.getOutputStream());
 
         return retStr;
     }
@@ -261,7 +265,7 @@ public class JMPlayer {
     /**
      * Closes currently running MPlayer and stops its data re-direction thread
      */
-    public void close() {
+    public synchronized void close() {
         if (mplayerProcess != null) {
             execute("quit");
             this.setPlayerInfoParam("isPlaying", "false");
@@ -277,6 +281,9 @@ public class JMPlayer {
                 // e.printStackTrace();
                 logger.info("Cannot close mplayer com.");
             }
+        }
+        if(pipeDumper.isAlive()){
+            pipeDumper.stopIt();
         }
         this.writePlayerInfoToStream();
     }
@@ -517,6 +524,7 @@ public class JMPlayer {
         boolean answerFound = false;
         ArrayList<String> locFileInfo = new ArrayList<String>();
         if (expected != null) {
+            this.pipeDumper.switchDumpAllowed(false);
             try {
                 while (System.currentTimeMillis() < endTime) {
                     if(mplayerOutErr.ready()){
@@ -540,8 +548,17 @@ public class JMPlayer {
                         }
                     }
                 }
+                this.pipeDumper.switchDumpAllowed(true);
             }
             catch (IOException e) {
+                System.out.println("Error at wait for answer.");
+                retStr = "Error: Communication with player failed!";
+                return retStr;
+            }
+            catch (Exception e){
+                System.out.println(" Unknown error at wait for answer.");
+                retStr = "Error: Communication with player failed, unknown error!";
+                return retStr;
             }
         }
         //if file/url got started successfully, renew file info of this session
@@ -552,5 +569,71 @@ public class JMPlayer {
             locFileInfo.forEach(elm->this.fileInfo.add(elm));
         }
         return retStr;
+    }
+
+    private class PipeDumper extends Thread{
+        private volatile boolean runFlag = true;
+        private volatile boolean dumpingIsAllowed = false;
+        private PipedInputStream dumpPipe;
+
+        public PipeDumper(PipedInputStream pipeToDump){
+            this.dumpPipe = pipeToDump;
+        }
+
+        public void stopIt(){
+            this.runFlag = false;
+        }
+
+        public void switchDumpAllowed(boolean newState){
+            this.dumpingIsAllowed = newState;
+        }
+
+        //public boolean isDumpAllowed(){
+        //    return this.dumpingIsAllowed;
+        //}
+
+        @Override
+        public void run(){
+            BufferedReader pipeReader = new BufferedReader(new InputStreamReader(dumpPipe));
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(mplayerProcess.getInputStream()));
+            String lineToDump = "";
+            //this.dumpingIsAllowed = true;
+
+            System.out.println("Starting pipe dumper thread.");
+            while(runFlag){
+                try {
+                    if(pipeReader.ready() && this.dumpingIsAllowed){
+                        if((lineToDump = pipeReader.readLine()) != null){
+                            //System.out.println("Dumping line: " + lineToDump);
+                        }
+                        else{
+                            this.stopIt();
+                        }
+                    }
+                    if(errorReader.ready() && this.dumpingIsAllowed){
+                        if((lineToDump = pipeReader.readLine()) != null){
+                            //System.out.println("Error line: " + lineToDump);
+                            if(lineToDump.contains("Audio device got stuck!")){
+                                System.out.println("Detected audio device got stuck, restarting player.");
+                                close();
+                                try {
+                                    System.out.println(open(new URL(playerInfo.get("path"))));
+                                } catch (MalformedURLException e) {
+                                    System.out.println(e.toString());
+                                } catch (IOException e) {
+                                    System.out.println(e.toString());
+                                }
+                            }
+                        }
+                        else{
+                            this.stopIt();
+                        }
+                    }
+                } catch (IOException e) {
+                    this.stopIt();
+                }
+            }
+            System.out.println("Stopping pipe dumper thread.");
+        }
     }
 }
