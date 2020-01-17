@@ -150,4 +150,11 @@ public final class MPlayerCommands {
     public void closePlayer(){
         playerObject.close();
     }
+
+    /**
+     * @return the playerObject
+     */
+    public JMPlayer getPlayerObject() {
+        return playerObject;
+    }
 }

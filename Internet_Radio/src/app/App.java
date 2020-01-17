@@ -34,7 +34,7 @@ public class App {
         /************************************************************************
          * PiFace Control and Display Handling
          ************************************************************************/
-        HardwareHandler hardwareHandler = new HardwareHandler();
+        HardwareHandler hardwareHandler = new HardwareHandler(cmdInterface);
         hardwareHandler.start();
 
          /************************************************************************
