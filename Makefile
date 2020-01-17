@@ -29,9 +29,9 @@ SERVER_OBJS=$(SERVER_C_SRC:.c=.o)
 
 vpath %.class $(SERVER_CLASS_PATH)
 
-all : header $(SERVER_JNI_DIR)/libradio.so
+all : java $(SERVER_JNI_DIR)/libradio.so
 
-header : $(SERVER_JNI_DIR)/RadioControl.h
+java : $(SERVER_JNI_DIR)/RadioControl.h
 
 
 $(SERVER_JNI_DIR)/libradio.so : $(SERVER_OBJS)

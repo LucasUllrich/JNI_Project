@@ -8,5 +8,9 @@ public class HardwareHandler extends Thread {
         DisplayManager displayManager = new DisplayManager();
         buttonManager.start();
         displayManager.start();
+
+        while(true) {
+            System.out.println("Button state: " + buttonManager.getButtonPressed());
+        }
     }
 }
