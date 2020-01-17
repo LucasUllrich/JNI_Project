@@ -34,6 +34,7 @@ public class HardwareHandler extends Thread {
 
             playerInfo = cmdInterface.getPlayerInfoQueue().peek();
             playerInfoElements = playerInfo.split("|");
+            System.out.println("Info: " + playerInfoElements[0]);
             for (String element : playerInfoElements) {
                 if (element.startsWith(">volume")) {
                     elementParser = element.split(" ");
@@ -42,7 +43,6 @@ public class HardwareHandler extends Thread {
                     elementParser = element.split(":");
                     senderName = elementParser[1];
                 }
-                System.out.println("Info: " + element);
             }
 
             // System.out.println("volume: " + volume);
