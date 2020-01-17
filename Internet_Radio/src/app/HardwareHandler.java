@@ -26,6 +26,7 @@ public class HardwareHandler extends Thread {
         int volume = 0;
         String senderName = "";
         String title = "";
+        int subStringPos = 0;
 
         buttonManager.start();
         displayManager.start();
@@ -35,22 +36,28 @@ public class HardwareHandler extends Thread {
 
             playerInfo = cmdInterface.getPlayerInfoQueue().peek().toString();
 
-	    System.out.println("playerInfo: " + playerInfo);
+	        System.out.println("playerInfo: " + playerInfo);
 
             playerInfoElements = playerInfo.split(Pattern.quote("|"));
-            System.out.println("Info: " + playerInfoElements[1]);
+            // System.out.println("Info: " + playerInfoElements[1]);
             for (String element : playerInfoElements) {
                 if (element.startsWith(">volume")) {
                     elementParser = element.split(" ");
                     volume = (int) Float.parseFloat(elementParser[1]);
                 } else if (element.startsWith(">Name")) {
                     elementParser = element.split(":");
-                    senderName = elementParser[1];
+                    senderName = elementParser[1].trim();
+                } else if (element.contains("StreamTitle")) {
+                    subStringPos = element.indexOf("StreamTitle");
+                    title = element.substring(subStringPos, element.length());
+                    elementParser = title.split("'");
+                    title = elementParser[1];
                 }
             }
 
-            // System.out.println("volume: " + volume);
-            // System.out.println("senderName: " + senderName);
+            System.out.println("+++volume: " + volume);
+            System.out.println("+++senderName: " + senderName);
+            System.out.println("+++Title: " + title);
 
 
             switch (buttonState) {
