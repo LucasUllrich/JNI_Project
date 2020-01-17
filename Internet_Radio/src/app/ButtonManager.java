@@ -9,8 +9,13 @@ public class ButtonManager extends Thread {
 
     @Override
     public void run () {
-        while(1) {
-            Thread.sleep(100);
+        while(true) {
+            try {
+                
+                Thread.sleep(100);
+            } catch (Exception e) {
+                //TODO: handle exception
+            }
         }
     }
 }
