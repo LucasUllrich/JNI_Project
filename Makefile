@@ -32,7 +32,7 @@ header : $(SERVER_JNI_DIR)/RadioControl.h
 
 
 $(SERVER_JNI_DIR)/libradio.so : $(SERVER_OBJS)
-	gcc -W -shared -o $@ $<
+	gcc -W -shared $(LIB_DIR) $(LIBS) -o $@ $<
 
 %.o: %.c
 	gcc -fPIC -c -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux" $(INC_DIR) $(LIB_DIR) $(LIBS) -I"$(SERVER_JNI_DIR)" $< -o $@
