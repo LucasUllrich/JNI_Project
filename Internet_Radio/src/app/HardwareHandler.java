@@ -19,7 +19,12 @@ public class HardwareHandler extends Thread {
         JMPlayer player = cmdInterface.getPlayerObject();
         // Map<String, String> playerInfo = new TreeMap<String, String>();
         String playerInfo = "";
+        String[] playerInfoElements = "";
+        String[] elementParser = "";
         int buttonState = 0;
+        int volume = 0;
+        String senderName = "";
+        String title = "";
 
         buttonManager.start();
         displayManager.start();
@@ -28,8 +33,21 @@ public class HardwareHandler extends Thread {
             buttonState = buttonManager.getButtonPressed();
 
             playerInfo = cmdInterface.getPlayerInfoQueue().peek();
-            System.out.println("Info: " + playerInfo);
+            playerInfoElements = playerInfo.split("|");
+            for (String element : playerInfoElements) {
+                if (element.startsWith(">volume")) {
+                    elementParser = element.split(" ");
+                    volume = Integer.parseInt(elementParser[1]);
+                } else if (element.startsWith(">Name")) {
+                    elementParser = element.split(":");
+                    senderName = elementParser[1];
+                }
+            }
 
+            System.out.println("volume: " + volume);
+            System.out.println("senderName: " + senderName);
+
+            // System.out.println("Info: " + playerInfoElements);
 
             switch (buttonState) {
                 case 1:
