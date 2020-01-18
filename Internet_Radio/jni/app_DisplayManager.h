@@ -72,10 +72,10 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd
 /*
  * Class:     app_DisplayManager
  * Method:    setCursourPosition
- * Signature: (BB)V
+ * Signature: (II)V
  */
 JNIEXPORT void JNICALL Java_app_DisplayManager_setCursourPosition
-  (JNIEnv *, jobject, jbyte, jbyte);
+  (JNIEnv *, jobject, jint, jint);
 
 #ifdef __cplusplus
 }

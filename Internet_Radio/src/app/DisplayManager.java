@@ -15,7 +15,7 @@ public class DisplayManager extends Thread {
     private native void setLcdState (boolean state);            // LCD on/off
     private native byte initLcd ();
     private native void autoscrollLcd (boolean state);
-    private native void setCursourPosition (byte col, byte row);
+    private native void setCursourPosition (int col, int row);
 
     /**
      * @param autoscroll the autoscroll to set
@@ -45,12 +45,13 @@ public class DisplayManager extends Thread {
         displayManager.initLcd();
         displayManager.sendText("Long Testtexttextext");
         while(true) {
+            displayManager.sendText(displayText1);
+            displayManager.setCursourPosition(0, 1);
+            displayManager.sendText(displayText2);
+            displayManager.setCursourPosition(0, 0);
+
+            
             try {
-                
-                displayManager.sendText(displayText1);
-                displayManager.sendText(displayText2);
-
-
                 Thread.sleep(100);
             } catch (Exception e) {
                 //TODO: handle exception
