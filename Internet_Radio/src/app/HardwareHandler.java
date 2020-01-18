@@ -34,7 +34,6 @@ public class HardwareHandler extends Thread {
         while(true) {
             buttonState = buttonManager.getButtonPressed();
             playerInfo = cmdInterface.getPlayerInfoQueue().peek().toString();
-
             
             switch (buttonState) {
                     case 1:
