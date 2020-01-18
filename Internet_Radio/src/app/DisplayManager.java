@@ -66,6 +66,7 @@ public class DisplayManager extends Thread {
             displayManager.setCursourPosition(0, 1);
             displayManager.sendText(displayText2.substring(line2TextPos));
             
+	    System.out.println("displayLine1: " + displayText1);
             // Special case if the line is back at the start, make a longer delay
             if (line1TextPos == 0) {
                 try {

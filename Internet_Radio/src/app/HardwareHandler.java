@@ -52,10 +52,10 @@ public class HardwareHandler extends Thread {
                 }
             }
 
-            System.out.println("+++volume: " + volume);
-            System.out.println("+++senderName: " + senderName);
-            System.out.println("+++Title: " + title);
-            System.out.println("");
+            // System.out.println("+++volume: " + volume);
+            // System.out.println("+++senderName: " + senderName);
+            // System.out.println("+++Title: " + title);
+            // System.out.println("");
 
             displayManager.setDisplayText1(senderName + " " + "Vol: " + volume);
             displayManager.setDisplayText2(title);
