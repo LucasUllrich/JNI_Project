@@ -47,6 +47,7 @@ public class DisplayManager extends Thread {
         displayManager.initLcd();
         // displayManager.sendText("Long Testtexttextext");
         while(true) {
+            displayManager.clearScreen();
             displayManager.setCursourPosition(0, 0);
             displayManager.sendText(displayText1.substring(line1TextPos));
             displayManager.setCursourPosition(0, 1);
@@ -66,7 +67,7 @@ public class DisplayManager extends Thread {
 
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (Exception e) {
                 //TODO: handle exception
             }
