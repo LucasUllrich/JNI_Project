@@ -38,48 +38,21 @@ public class HardwareHandler extends Thread {
             switch (buttonState) {
                     case 1:
                         cmdInterface.sendCommand("preset 0");
-                        displayManager.setDisplayText1("changing station");
-                        try {
-                            Thread.sleep(1000);
-                            continue;
-                        } catch (Exception e) {
-                            System.out.println("HardwareHandler could not enter sleep state");
-                        }
                         break;
                     
                     case 2:
                         cmdInterface.sendCommand("preset 1");
-                        displayManager.setDisplayText1("changing station");
-                        try {
-                            Thread.sleep(1000);
-                            continue;
-                        } catch (Exception e) {
-                            System.out.println("HardwareHandler could not enter sleep state");
-                        }
                         break;
                     
                     case 3:
                         cmdInterface.sendCommand("preset 2");
-                        displayManager.setDisplayText1("changing station");
-                        try {
-                            Thread.sleep(1000);
-                            continue;
-                        } catch (Exception e) {
-                            System.out.println("HardwareHandler could not enter sleep state");
-                        }
                         break;
                     
                     case 4:
                         cmdInterface.sendCommand("preset 3");
-                        displayManager.setDisplayText1("changing station");
-                        try {
-                            Thread.sleep(1000);
-                            continue;
-                        } catch (Exception e) {
-                            System.out.println("HardwareHandler could not enter sleep state");
-                        }
                         break;
                     
+                        
                     case 6:
                         player.setVolume(0);
                         break;
