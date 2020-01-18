@@ -69,6 +69,14 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd
 JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd
   (JNIEnv *, jobject, jboolean);
 
+/*
+ * Class:     app_DisplayManager
+ * Method:    setCursourPosition
+ * Signature: (BB)V
+ */
+JNIEXPORT void JNICALL Java_app_DisplayManager_setCursourPosition
+  (JNIEnv *, jobject, jbyte, jbyte);
+
 #ifdef __cplusplus
 }
 #endif

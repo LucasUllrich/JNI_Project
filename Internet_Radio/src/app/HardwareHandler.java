@@ -36,7 +36,7 @@ public class HardwareHandler extends Thread {
 
             playerInfo = cmdInterface.getPlayerInfoQueue().peek().toString();
 
-	        System.out.println("playerInfo: " + playerInfo);
+	        // System.out.println("playerInfo: " + playerInfo);
 
             playerInfoElements = playerInfo.split(Pattern.quote("|"));
             // System.out.println("Info: " + playerInfoElements[1]);
@@ -51,24 +51,24 @@ public class HardwareHandler extends Thread {
                     subStringPos = element.indexOf("StreamTitle");
                     title = element.substring(subStringPos, element.length());
                     elementParser = title.split("'");
-                    title = elementParser[1];
+                    title = elementParser[1].trim();
                 }
             }
 
             System.out.println("+++volume: " + volume);
             System.out.println("+++senderName: " + senderName);
             System.out.println("+++Title: " + title);
+            System.out.println("");
+
+            displayManager.setDisplayText1(senderName + " " + "Vol: " + volume);
+            displayManager.setDisplayText2(title);
 
 
             switch (buttonState) {
                 case 1:
-			System.out.println ("Autoscroll on");
-                    displayManager.setAutoscroll(true);
                     break;
 
                 case 2:
-System.out.println ("Autoscroll off");
-                    displayManager.setAutoscroll(false);
                     break;
 
                 case 3:

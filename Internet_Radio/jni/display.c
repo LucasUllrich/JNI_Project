@@ -62,7 +62,7 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject th
     pifacecad_lcd_cursor_off();
     pifacecad_lcd_blink_off();
     pifacecad_lcd_display_on();
-//    pifacecad_lcd_autoscroll_on();
+    pifacecad_lcd_set_cursor(0, 0);
 #endif
     return 0;
 }
@@ -74,5 +74,11 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd (JNIEnv *env, jobje
     } else {
         pifacecad_lcd_autoscroll_off();
     }
+#endif
+}
+
+JNIEXPORT void JNICALL Java_app_DisplayManager_setCursourPosition (JNIEnv *env, jobject thisObj, jbyte col, jbyte row) {
+#ifndef PC_BUILD
+    pifacecad_lcd_set_cursor(col, row);
 #endif
 }
