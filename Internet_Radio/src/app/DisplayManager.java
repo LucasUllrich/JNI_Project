@@ -42,15 +42,29 @@ public class DisplayManager extends Thread {
     @Override
     public void run () {
         DisplayManager displayManager = new DisplayManager();
+        int line1TextPos = 0;
+        int line2TextPos = 0;
         displayManager.initLcd();
-        displayManager.sendText("Long Testtexttextext");
+        // displayManager.sendText("Long Testtexttextext");
         while(true) {
-            displayManager.sendText(displayText1);
-            displayManager.setCursourPosition(0, 1);
-            displayManager.sendText(displayText2);
             displayManager.setCursourPosition(0, 0);
+            displayManager.sendText(displayText1.substring(line1TextPos));
+            displayManager.setCursourPosition(0, 1);
+            displayManager.sendText(displayText2.substring(line2TextPos));
 
-            
+            if (line1TextPos < (displayText1.length() - 3)) {
+                line1TextPos++;
+            }
+            if (line2TextPos < (displayText2.length() - 3)) {
+                line2TextPos++;
+            }
+            if ((line1TextPos > (displayText1.length() - 4)) &&
+                    (line2TextPos > (displayText2.length() - 4))) {
+                line1TextPos = 0;
+                line2TextPos = 0;
+            }
+
+
             try {
                 Thread.sleep(100);
             } catch (Exception e) {

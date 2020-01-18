@@ -33,13 +33,10 @@ public class HardwareHandler extends Thread {
 
         while(true) {
             buttonState = buttonManager.getButtonPressed();
-
             playerInfo = cmdInterface.getPlayerInfoQueue().peek().toString();
 
-	        // System.out.println("playerInfo: " + playerInfo);
-
             playerInfoElements = playerInfo.split(Pattern.quote("|"));
-            // System.out.println("Info: " + playerInfoElements[1]);
+
             for (String element : playerInfoElements) {
                 if (element.startsWith(">volume")) {
                     elementParser = element.split(" ");
@@ -62,7 +59,6 @@ public class HardwareHandler extends Thread {
 
             displayManager.setDisplayText1(senderName + " " + "Vol: " + volume);
             displayManager.setDisplayText2(title);
-
 
             switch (buttonState) {
                 case 1:
@@ -89,10 +85,22 @@ public class HardwareHandler extends Thread {
 
                 case 7:
                     player.setVolume(player.getVolume() - 5);
+                    try {
+                        Thread.sleep(500);
+                        
+                    } catch (Exception e) {
+                        System.out.println("HardwareHandler could not enter sleep state");
+                    }
                     break;
 
                 case 8:
                     player.setVolume(player.getVolume() + 5);
+                    try {
+                        Thread.sleep(500);
+                        
+                    } catch (Exception e) {
+                        System.out.println("HardwareHandler could not enter sleep state");
+                    }
                     break;
 
                 default:
@@ -100,10 +108,10 @@ public class HardwareHandler extends Thread {
             }
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
                 
             } catch (Exception e) {
-                //TODO: handle exception
+                System.out.println("HardwareHandler could not enter sleep state");
             }
         }
     }
