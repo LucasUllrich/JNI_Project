@@ -52,15 +52,25 @@ public class DisplayManager extends Thread {
             displayManager.sendText(displayText1.substring(line1TextPos));
             displayManager.setCursourPosition(0, 1);
             displayManager.sendText(displayText2.substring(line2TextPos));
+            
+            // Special case if the line is back at the start, make a longer delay
+            if (line1TextPos == 0) {
+                try {
+                    Thread.sleep(200);
+                } catch (Exception e) {
+                    System.out.println("DisplayManager could not enter sleep state");
+                }
+            }
 
-            if (line1TextPos < (displayText1.length() - 3)) {
+
+            if (line1TextPos < (displayText1.length() - 8)) {
                 line1TextPos++;
             }
-            if (line2TextPos < (displayText2.length() - 3)) {
+            if (line2TextPos < (displayText2.length() - 8)) {
                 line2TextPos++;
             }
-            if ((line1TextPos > (displayText1.length() - 4)) &&
-                    (line2TextPos > (displayText2.length() - 4))) {
+            else if ((line1TextPos > (displayText1.length() - 9)) &&
+                    (line2TextPos > (displayText2.length() - 9))) {
                 line1TextPos = 0;
                 line2TextPos = 0;
             }
@@ -69,7 +79,7 @@ public class DisplayManager extends Thread {
             try {
                 Thread.sleep(200);
             } catch (Exception e) {
-                //TODO: handle exception
+                System.out.println("DisplayManager could not enter sleep state");
             }
         }
     }

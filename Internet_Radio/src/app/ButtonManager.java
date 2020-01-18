@@ -6,7 +6,7 @@ public class ButtonManager extends Thread {
     }
     private byte buttonPressed;
     private byte buttonStates;
-    
+
     private native byte getButtonStates ();
 
     /**
@@ -31,7 +31,7 @@ public class ButtonManager extends Thread {
             try {    
                 Thread.sleep(100);
             } catch (Exception e) {
-                //TODO: handle exception
+                System.out.println("ButtonManager could not enter sleep state");
             }
         }
     }
