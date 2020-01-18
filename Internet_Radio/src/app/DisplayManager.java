@@ -7,6 +7,8 @@ public class DisplayManager extends Thread {
     private boolean autoscroll;
     private String displayText1 = "";
     private String displayText2 = "";
+    private String displayText1Buffer = "";
+    private String displayText2Buffer = "";
 
     private native void sendText (String text);
     private native void setBacklightState (boolean state);      // LCD Backlight on/off
@@ -47,6 +49,17 @@ public class DisplayManager extends Thread {
         displayManager.initLcd();
         // displayManager.sendText("Long Testtexttextext");
         while(true) {
+            // Rest moving line routine if the string changed to counteract an index out of range
+            if (displayText1Buffer.compareTo(displayText1) != 0) {
+                displayText1Buffer = displayText1;
+                line1TextPos = 0;
+            }
+            if (displayText2Buffer.compareTo(displayText2) != 0) {
+                displayText2Buffer = displayText2;
+                line1TextPos = 0;
+                line2TextPos = 0;
+            }
+
             displayManager.clearScreen();
             displayManager.setCursourPosition(0, 0);
             displayManager.sendText(displayText1.substring(line1TextPos));
