@@ -69,7 +69,7 @@ public class DisplayManager extends Thread {
             if (line2TextPos < (displayText2.length() - 8)) {
                 line2TextPos++;
             }
-            else if ((line1TextPos > (displayText1.length() - 9)) &&
+            if ((line1TextPos > (displayText1.length() - 9)) &&
                     (line2TextPos > (displayText2.length() - 9))) {
                 line1TextPos = 0;
                 line2TextPos = 0;
