@@ -62,17 +62,19 @@ public class HardwareHandler extends Thread {
 
             switch (buttonState) {
                 case 1:
+                    cmdInterface.sendCommand("preset 0");
                     break;
 
                 case 2:
+                    cmdInterface.sendCommand("preset 1");
                     break;
 
                 case 3:
-                    
+                    cmdInterface.sendCommand("preset 2");
                     break;
 
                 case 4:
-                    
+                    cmdInterface.sendCommand("preset 3");
                     break;
 
                 case 5:
