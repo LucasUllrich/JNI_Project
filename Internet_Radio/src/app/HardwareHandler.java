@@ -35,79 +35,97 @@ public class HardwareHandler extends Thread {
             buttonState = buttonManager.getButtonPressed();
             playerInfo = cmdInterface.getPlayerInfoQueue().peek().toString();
 
-            playerInfoElements = playerInfo.split(Pattern.quote("|"));
-
-            for (String element : playerInfoElements) {
-                if (element.startsWith(">volume")) {
-                    elementParser = element.split(" ");
-                    volume = (int) Float.parseFloat(elementParser[1]);
-                } else if (element.startsWith(">Name")) {
-                    elementParser = element.split(":");
-                    senderName = elementParser[1].trim();
-                } else if (element.contains("StreamTitle")) {
-                    subStringPos = element.indexOf("StreamTitle");
-                    title = element.substring(subStringPos, element.length());
-                    elementParser = title.split("'");
-                    title = elementParser[1].trim();
-                }
-            }
-
-            // System.out.println("+++volume: " + volume);
-            // System.out.println("+++senderName: " + senderName);
-            // System.out.println("+++Title: " + title);
-            // System.out.println("");
-
-            displayManager.setDisplayText1(senderName + " " + "Vol: " + volume);
-            displayManager.setDisplayText2(title);
-
+            
             switch (buttonState) {
-                case 1:
-                    cmdInterface.sendCommand("preset 0");
-                    break;
-
-                case 2:
-                    cmdInterface.sendCommand("preset 1");
-                    break;
-
-                case 3:
-                    cmdInterface.sendCommand("preset 2");
-                    break;
-
-                case 4:
-                    cmdInterface.sendCommand("preset 3");
-                    break;
-
-                case 5:
+                    case 1:
+                        cmdInterface.sendCommand("preset 0");
+                        displayManager.setDisplayText1("changing station");
+                        try {
+                            Thread.sleep(1000);
+                            continue;
+                        } catch (Exception e) {
+                            System.out.println("HardwareHandler could not enter sleep state");
+                        }
+                        break;
                     
-                    break;
+                    case 2:
+                        cmdInterface.sendCommand("preset 1");
+                        displayManager.setDisplayText1("changing station");
+                        try {
+                            Thread.sleep(1000);
+                            continue;
+                        } catch (Exception e) {
+                            System.out.println("HardwareHandler could not enter sleep state");
+                        }
+                        break;
                     
-                case 6:
-                    player.setVolume(0);
-                    break;
+                    case 3:
+                        cmdInterface.sendCommand("preset 2");
+                        displayManager.setDisplayText1("changing station");
+                        try {
+                            Thread.sleep(1000);
+                            continue;
+                        } catch (Exception e) {
+                            System.out.println("HardwareHandler could not enter sleep state");
+                        }
+                        break;
+                    
+                    case 4:
+                        cmdInterface.sendCommand("preset 3");
+                        displayManager.setDisplayText1("changing station");
+                        try {
+                            Thread.sleep(1000);
+                            continue;
+                        } catch (Exception e) {
+                            System.out.println("HardwareHandler could not enter sleep state");
+                        }
+                        break;
+                    
+                    case 6:
+                        player.setVolume(0);
+                        break;
 
-                case 7:
-                    player.setVolume(player.getVolume() - 5);
-                    try {
-                        Thread.sleep(500);
-                        
-                    } catch (Exception e) {
-                        System.out.println("HardwareHandler could not enter sleep state");
+                    case 7:
+                        player.setVolume(player.getVolume() - 5);
+                        try {
+                            Thread.sleep(500);
+                        } catch (Exception e) {
+                            System.out.println("HardwareHandler could not enter sleep state");
+                        }
+                        break;
+                    
+                    case 8:
+                        player.setVolume(player.getVolume() + 5);
+                        try {
+                            Thread.sleep(500);
+                        } catch (Exception e) {
+                            System.out.println("HardwareHandler could not enter sleep state");
+                        }
+                        break;
+                    
+                    default:
+                        break;
+                }
+
+                playerInfoElements = playerInfo.split(Pattern.quote("|"));
+    
+                for (String element : playerInfoElements) {
+                    if (element.startsWith(">volume")) {
+                        elementParser = element.split(" ");
+                        volume = (int) Float.parseFloat(elementParser[1]);
+                    } else if (element.startsWith(">Name")) {
+                        elementParser = element.split(":");
+                        senderName = elementParser[1].trim();
+                    } else if (element.contains("StreamTitle")) {
+                        subStringPos = element.indexOf("StreamTitle");
+                        title = element.substring(subStringPos, element.length());
+                        elementParser = title.split("'");
+                        title = elementParser[1].trim();
                     }
-                    break;
+                }
 
-                case 8:
-                    player.setVolume(player.getVolume() + 5);
-                    try {
-                        Thread.sleep(500);
-                        
-                    } catch (Exception e) {
-                        System.out.println("HardwareHandler could not enter sleep state");
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+                displayManager.setDisplayText1(senderName + " " + "Vol: " + volume);
+                displayManager.setDisplayText2(title);
 
             try {
                 Thread.sleep(100);
