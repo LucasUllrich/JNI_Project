@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <stdio.h>
+#include <stdint.h>
 #include "app_DisplayManager.h"
 
 #ifndef PC_BUILD
@@ -110,6 +111,6 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd (JNIEnv *env, jobje
  */
 JNIEXPORT void JNICALL Java_app_DisplayManager_setCursourPosition (JNIEnv *env, jobject thisObj, jint col, jint row) {
 #ifndef PC_BUILD
-    pifacecad_lcd_set_cursor((byte) col, (byte) row);
+    pifacecad_lcd_set_cursor((uint8_t) col, (uint8_t) row);
 #endif
 }
