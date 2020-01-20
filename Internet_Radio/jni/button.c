@@ -9,6 +9,9 @@
 
 #define NUM_OF_BUTTONS (8)
 
+/**
+ * Provide the pressed button as a number to the caller
+ */
 JNIEXPORT jbyte JNICALL Java_app_ButtonManager_getButtonStates (JNIEnv *env, jobject thisObj) {
 #ifndef PC_BUILD
     uint8_t buttons;

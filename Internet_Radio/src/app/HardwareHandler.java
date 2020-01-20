@@ -1,9 +1,11 @@
 package app;
 
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
+/**
+ * Handler thread for the hardware conrtol providing the interface
+ * between the radio and the piface shield
+ */
 public class HardwareHandler extends Thread {
 
     MPlayerCommands cmdInterface = null;
@@ -13,12 +15,14 @@ public class HardwareHandler extends Thread {
         this.cmdInterface = cmdInterface;
     }
 
+    /**
+     * Handler thread, process buttons and set display accordingly
+     */
     @Override
     public void run () {
         ButtonManager buttonManager = new ButtonManager();
         DisplayManager displayManager = new DisplayManager();
         JMPlayer player = cmdInterface.getPlayerObject();
-        // Map<String, String> playerInfo = new TreeMap<String, String>();
         String playerInfo = "";
         String[] playerInfoElements;
         String[] elementParser;
@@ -58,18 +62,20 @@ public class HardwareHandler extends Thread {
                         break;
 
                     case 7:
-                        player.setVolume(player.getVolume() - 5);
+                        // player.setVolume(player.getVolume() - 5);
+                        player.setVolume(volume - 5);
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(500);      // Slow down processing to improve controllability
                         } catch (Exception e) {
                             System.out.println("HardwareHandler could not enter sleep state");
                         }
                         break;
                     
                     case 8:
-                        player.setVolume(player.getVolume() + 5);
+                        // player.setVolume(player.getVolume() + 5);
+                        player.setVolume(volume + 5);
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(500);      // Slow down processing to improve controllability
                         } catch (Exception e) {
                             System.out.println("HardwareHandler could not enter sleep state");
                         }
@@ -80,7 +86,10 @@ public class HardwareHandler extends Thread {
                 }
 
                 playerInfoElements = playerInfo.split(Pattern.quote("|"));
-    
+
+                /**
+                 * Get the necessary information from the info queue
+                 */
                 for (String element : playerInfoElements) {
                     if (element.startsWith(">volume")) {
                         elementParser = element.split(" ");

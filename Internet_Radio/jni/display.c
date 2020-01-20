@@ -6,6 +6,10 @@
 #include "pifacecad.h"
 #endif
 
+/**
+ * Send a text to the previously set cursor position
+ * @param text the text to be displayed on the screen
+ */
 JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *env, jobject thisObj, jstring text) {
 #ifndef PC_BUILD
     char *pText = (char *)(* env)->GetStringUTFChars(env, text, NULL);
@@ -16,6 +20,10 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_sendText (JNIEnv *env, jobject th
 #endif
 }
 
+/**
+ * Turn the backlight on or off
+ * @param state the desired power state of the backlight
+ */
 JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
@@ -26,6 +34,10 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setBacklightState (JNIEnv *env, j
 #endif
 }
 
+/**
+ * Turn the cursor visibility on or off
+ * @param state the desired visbility of the cursor
+ */
 JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
@@ -36,12 +48,19 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setCursorVisibility (JNIEnv *env,
 #endif
 }
 
+/**
+ * Clear all content from the screen
+ */
 JNIEXPORT void JNICALL Java_app_DisplayManager_clearScreen (JNIEnv *env, jobject thisObj) {
 #ifndef PC_BUILD
     pifacecad_lcd_clear();
 #endif
 }
 
+/**
+ * Turn the LCD on or off
+ * @param state the desired power state of the display
+ */
 JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
@@ -52,6 +71,9 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_setLcdState (JNIEnv *env, jobject
 #endif
 }
 
+/**
+ * Initialize the display for operation and good visibility
+ */
 JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject thisObj) {
 #ifndef PC_BUILD
     if (pifacecad_open() == -1) {
@@ -67,6 +89,10 @@ JNIEXPORT jbyte JNICALL Java_app_DisplayManager_initLcd (JNIEnv *env, jobject th
     return 0;
 }
 
+/**
+ * Change the autoscroll functionality
+ * @param state the desired state of the autoscroll functionality
+ */
 JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd (JNIEnv *env, jobject thisObj, jboolean state) {
 #ifndef PC_BUILD
     if (state) {
@@ -77,8 +103,13 @@ JNIEXPORT void JNICALL Java_app_DisplayManager_autoscrollLcd (JNIEnv *env, jobje
 #endif
 }
 
-JNIEXPORT void JNICALL Java_app_DisplayManager_setCursourPosition (JNIEnv *env, jobject thisObj, jbyte col, jbyte row) {
+/**
+ * Change the cursor position
+ * @param col the column the cursor should be set to
+ * @param row the row the cursor should be set to
+ */
+JNIEXPORT void JNICALL Java_app_DisplayManager_setCursourPosition (JNIEnv *env, jobject thisObj, jint col, jint row) {
 #ifndef PC_BUILD
-    pifacecad_lcd_set_cursor(col, row);
+    pifacecad_lcd_set_cursor((byte) col, (byte) row);
 #endif
 }

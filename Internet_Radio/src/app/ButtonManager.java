@@ -1,5 +1,8 @@
 package app;
 
+/**
+ * Handler thread to manage the button inputs
+ */
 public class ButtonManager extends Thread {
     static {
         System.loadLibrary("radio");
@@ -16,6 +19,9 @@ public class ButtonManager extends Thread {
         return buttonPressed;
     }
 
+    /**
+     * Therad to read the button values periodicaly and debounce them
+     */
     @Override
     public void run () {
         ButtonManager buttonManager = new ButtonManager();

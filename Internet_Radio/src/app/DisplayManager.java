@@ -1,10 +1,12 @@
 package app;
 
+/**
+ * Handler thread to display the information on the screen
+ */
 public class DisplayManager extends Thread {
     static {
         System.loadLibrary("radio");
     }
-    private boolean autoscroll;
     private String displayText1 = "";
     private String displayText2 = "";
     private String displayText1Buffer = "";
@@ -19,12 +21,6 @@ public class DisplayManager extends Thread {
     private native void autoscrollLcd (boolean state);
     private native void setCursourPosition (int col, int row);
 
-    /**
-     * @param autoscroll the autoscroll to set
-     */
-    public void setAutoscroll(boolean autoscroll) {
-        this.autoscroll = autoscroll;
-    }
     /**
      * Display text of the first line
      * @param displayText1 the displayText1 to set
@@ -41,6 +37,9 @@ public class DisplayManager extends Thread {
         this.displayText2 = displayText2;
     }
 
+    /**
+     * Thread to periodically update the display and make all the information readable by scrolling
+     */
     @Override
     public void run () {
         DisplayManager displayManager = new DisplayManager();
@@ -49,7 +48,7 @@ public class DisplayManager extends Thread {
         displayManager.initLcd();
         // displayManager.sendText("Long Testtexttextext");
         while(true) {
-            // Rest moving line routine if the string changed to counteract an index out of range
+            // Reset moving line routine if the string changed to counteract an index out of range
             if (displayText1Buffer.compareTo(displayText1) != 0) {
                 displayText1Buffer = displayText1;
                 line1TextPos = 0;
@@ -60,6 +59,9 @@ public class DisplayManager extends Thread {
                 line2TextPos = 0;
             }
 
+            /**
+             * Rotate the Message on the screen to make more than 16 characters vissible
+             */
             displayManager.clearScreen();
             displayManager.setCursourPosition(0, 0);
             displayManager.sendText(displayText1.substring(line1TextPos));
@@ -76,6 +78,10 @@ public class DisplayManager extends Thread {
             }
 
 
+            /**
+             * At least 8 characters stay visible on the screen, as soon as both lines
+             * are scrolled to the we jump back to the start
+             */
             if (line1TextPos < (displayText1.length() - 8)) {
                 line1TextPos++;
             }
