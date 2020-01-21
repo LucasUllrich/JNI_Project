@@ -1,5 +1,6 @@
 $(info Set the JAVA_HOME directory in your system, either by adding JAVA_HOME=... in /etc/environment and rebooting (permanently), \
 or just issuing the JAVA_HOME=... command in your command line (only for the current session))
+$(info This project was developed on an out of the box raspian stretch installation)
 $(info )
 
 SERVER_CLASS_PATH=Internet_Radio/bin/
