@@ -72,7 +72,8 @@ public class JMPlayer {
     }
 
     /** The path to the MPlayer executable. */
-    private String mplayerPath = "/usr/bin/mplayer";
+    private String mplayerPath = "/usr/bin/mplayer"; //path Raspbian, Debian
+    //private String mplayerPath = "/usr/local/bin/mplayer"; //path openSUSE
     /** Options passed to MPlayer. */
     private String mplayerOptions = " -slave -idle";
 
@@ -456,7 +457,7 @@ public class JMPlayer {
      * 
      * @return player info string
      */
-    private String writePlayerInfoToStream(){
+    private synchronized String writePlayerInfoToStream(){
         String streamString = "";
         
         if(this.playerInfo != null){
@@ -571,6 +572,16 @@ public class JMPlayer {
         return retStr;
     }
 
+    private synchronized void actualizeFileInfoICY(String newICY){
+        for(int i = 0; i < this.fileInfo.size(); i++){
+            if(this.fileInfo.get(i).contains("ICY Info")){
+                this.fileInfo.remove(i);
+                this.fileInfo.add(newICY);
+            }
+        }
+        this.writePlayerInfoToStream();
+    }
+
     private class PipeDumper extends Thread{
         private volatile boolean runFlag = true;
         private volatile boolean dumpingIsAllowed = false;
@@ -605,6 +616,10 @@ public class JMPlayer {
                     if(pipeReader.ready() && this.dumpingIsAllowed){
                         if((lineToDump = pipeReader.readLine()) != null){
                             //System.out.println("Dumping line: " + lineToDump);
+                            //actualizing ICY Info at web radio
+                            if(lineToDump.contains("ICY Info")){
+                                actualizeFileInfoICY(lineToDump);
+                            }
                         }
                         else{
                             this.stopIt();
@@ -623,6 +638,10 @@ public class JMPlayer {
                                 } catch (IOException e) {
                                     System.out.println(e.toString());
                                 }
+                            }
+                            else if(lineToDump.contains("ICY Info")){
+                                //actualizing ICY Info at web radio
+                                actualizeFileInfoICY(lineToDump);
                             }
                         }
                         else{
